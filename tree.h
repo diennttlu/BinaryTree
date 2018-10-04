@@ -16,10 +16,16 @@ private:
 				AddChild(value, root->left);
 			else
 			{
+				Node<T> *n = new Node<T>;
+				n->data = value;
+				n->left = 0;
+				n->right = 0;
+				root->left = n;
+				/*
 				root->left = new Node<T>;
 				root->left->data = value;
 				root->left->left = 0;
-				root->left->right=0;
+				root->left->right=0;*/
 			}
 		}
 		else
@@ -30,10 +36,16 @@ private:
 					AddChild(value,root->right);
 				else
 				{
+					Node<T> *n = new Node<T>;
+					n->data = value;
+					n->left = 0;
+					n->right = 0;
+					root->right = n;
+					/*
 					root->right = new Node<T>;
 					root->right->data = value;
 					root->right->left = 0;
-					root->right->right = 0;
+					root->right->right = 0;*/
 				}
 			}
 		}
@@ -156,6 +168,13 @@ private:
     	else
     		return 1 + max(HeightTree(root->left) , HeightTree(root->right));
     }
+    Node<T>* FindMin(Node<T> *root)
+    {
+    	Node<T> *p = root;
+       	while(p->left != 0)
+       		p = p->left;
+       	return p;	
+    };
 
 public:
 	Tree()
