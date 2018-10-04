@@ -14,6 +14,7 @@ int main()
 	t1.PreOrder();
 	t1.InOrder();
 	cout<<t1.NodeCount()<<endl;
+	cout<<t1.HeightTree()<<endl;
 	//t1.PostOrder();
 	//cout<<t1.Search(4)<<endl;
 	return 0;

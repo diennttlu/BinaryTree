@@ -2,6 +2,7 @@
 #define tree_h
 #include "node.h"
 #include <limits.h>
+#include <math.h>
 template <class T>
 class Tree
 {
@@ -148,6 +149,13 @@ private:
         	return 1 + NodeCount(root->left) + NodeCount(root->right);
     }
 
+    int HeightTree(Node<T> *root) // dem so tang
+    {
+    	if(root == 0)
+    		return 0;
+    	else
+    		return 1 + max(HeightTree(root->left) , HeightTree(root->right));
+    }
 
 public:
 	Tree()
@@ -200,6 +208,10 @@ public:
 	{
 		return NodeCount(root);
 	};
+	int HeightTree()
+	{
+		return HeightTree(root);
+	}
 };
 	
 #endif
