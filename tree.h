@@ -1,6 +1,7 @@
 #ifndef tree_h
 #define tree_h
 #include "node.h"
+#include <limits.h>
 template <class T>
 class Tree
 {
@@ -74,6 +75,7 @@ private:
 		if(root->data>value)
 			return Search(value,root->left);	
 	};
+
 	void Add(T value1, T value2, Node<T> *root)
 	{
 		if(root != 0)
@@ -82,6 +84,7 @@ private:
 			{
 				if(value1 == root->data)
 				{
+					/*
 					if(root->left != 0)
 					{
 						root->right = new Node<T>;
@@ -91,10 +94,30 @@ private:
 					}
 					else
 					{
-						root->left = new Node<T>;
-						root->left->data = value2;
-						root->left->left = 0;
-						root->left->right=0;
+						if(root->right != 0)
+						{
+							root->left = new Node<T>;
+							root->left->data = value2;
+							root->left->left = 0;
+							root->left->right=0;
+						}
+					}*/
+					
+					Node<T> *n = new Node<T>;
+					n->data = value2;
+					n->left = 0;
+					n->right = 0;
+
+					if(root->left == 0)
+					{
+						root->left = n;	
+					}
+					else
+					{
+						if(root->right == 0)
+						{
+							root->right = n;
+						}
 					}
 				}
 				else
@@ -102,10 +125,29 @@ private:
 					Add(value1,value2,root->left);
 					Add(value1,value2,root->right);
 				}
-
 			}
 		}
 	};
+	int Max = INT_MIN; // gan cho max gia tri nho nhat cua int;
+	int SearchMax(Node<T> *root)
+	{
+		if(root != 0)
+		{
+			if(Max< root->data)
+				Max = root->data;
+			SearchMax(root->left);
+			SearchMax(root->right);
+		}
+		return Max;
+	};
+	int NodeCount(Node<T> *root) // dem so node
+	{
+        if (root == 0)
+        	return 0;
+        else
+        	return 1 + NodeCount(root->left) + NodeCount(root->right);
+    }
+
 
 public:
 	Tree()
@@ -138,7 +180,7 @@ public:
 		cout<<endl;
 	};
 	void PostOrder() const
-	{s
+	{
 		PostOrder(root);
 		cout<<endl;
 	};
@@ -150,7 +192,14 @@ public:
 	{
 		Add(value1,value2,root);
 	};
-	
+	int SearchMax()
+	{
+		return SearchMax(root);
+	};
+	int NodeCount()
+	{
+		return NodeCount(root);
+	};
 };
 	
 #endif

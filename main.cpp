@@ -10,10 +10,10 @@ int main()
 	t1.AddChild(15);
 	t1.Add(6,10);
 	t1.Add(6,7);
-
 	t1.Add(15,13);
 	t1.PreOrder();
 	t1.InOrder();
+	cout<<t1.NodeCount()<<endl;
 	//t1.PostOrder();
 	//cout<<t1.Search(4)<<endl;
 	return 0;
