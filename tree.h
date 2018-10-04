@@ -54,17 +54,59 @@ private:
 			InOrder(root->right);
 		}
 	};
+	void PostOrder(Node<T> *root) const
+	{
+		if(root != 0)
+		{
+			PostOrder(root->right);
+			cout<<root->data<<"; ";
+			PostOrder(root->left);
+		}
+	};
 	bool Search(T value, Node<T> *root)
 	{
-			if(root == 0)
-				return false;
-			if(root->data == value)
-				return true;
-			if(root->data<value)
-				return Search(value,root->right);
-			if(root->data>value)
-				return Search(value,root->left);	
+		if(root == 0)
+			return false;
+		if(root->data == value)
+			return true;
+		if(root->data<value)
+			return Search(value,root->right);
+		if(root->data>value)
+			return Search(value,root->left);	
 	};
+	void Add(T value1, T value2, Node<T> *root)
+	{
+		if(root != 0)
+		{
+			if( Search(value1) )
+			{
+				if(value1 == root->data)
+				{
+					if(root->left != 0)
+					{
+						root->right = new Node<T>;
+						root->right->data = value2;
+						root->right->left = 0;
+						root->right->right=0;
+					}
+					else
+					{
+						root->left = new Node<T>;
+						root->left->data = value2;
+						root->left->left = 0;
+						root->left->right=0;
+					}
+				}
+				else
+				{
+					Add(value1,value2,root->left);
+					Add(value1,value2,root->right);
+				}
+
+			}
+		}
+	};
+
 public:
 	Tree()
 	{
@@ -95,10 +137,20 @@ public:
 		InOrder(root);
 		cout<<endl;
 	};
+	void PostOrder() const
+	{s
+		PostOrder(root);
+		cout<<endl;
+	};
 	bool Search(T value)
 	{
 		return Search(value,root);
 	};
+	void Add(T value1, T value2)
+	{
+		Add(value1,value2,root);
+	};
+	
 };
 	
 #endif
