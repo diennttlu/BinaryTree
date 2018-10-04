@@ -77,7 +77,7 @@ private:
 			PostOrder(root->left);
 		}
 	};
-	bool Search(T value, Node<T> *root)
+	bool Search(T value, Node<T> *root) const
 	{
 		if(root == 0)
 			return false;
@@ -97,24 +97,6 @@ private:
 			{
 				if(value1 == root->data)
 				{
-					/*
-					if(root->left != 0)
-					{
-						root->right = new Node<T>;
-						root->right->data = value2;
-						root->right->left = 0;
-						root->right->right=0;
-					}
-					else
-					{
-						if(root->right != 0)
-						{
-							root->left = new Node<T>;
-							root->left->data = value2;
-							root->left->left = 0;
-							root->left->right=0;
-						}
-					}*/
 					
 					Node<T> *n = new Node<T>;
 					n->data = value2;
@@ -141,41 +123,88 @@ private:
 			}
 		}
 	};
-	int Max = INT_MIN; // gan cho max gia tri nho nhat cua int;
-	int SearchMax(Node<T> *root)
-	{
-		if(root != 0)
-		{
-			if(Max< root->data)
-				Max = root->data;
-			SearchMax(root->left);
-			SearchMax(root->right);
-		}
-		return Max;
-	};
-	int NodeCount(Node<T> *root) // dem so node
+	int NodeCount(Node<T> *root) const // dem so node
 	{
         if (root == 0)
         	return 0;
         else
         	return 1 + NodeCount(root->left) + NodeCount(root->right);
-    }
+    };
 
-    int HeightTree(Node<T> *root) // dem so tang
+    int HeightTree(Node<T> *root) const// dem so tang
     {
     	if(root == 0)
     		return 0;
     	else
     		return 1 + max(HeightTree(root->left) , HeightTree(root->right));
     }
-    Node<T>* FindMin(Node<T> *root)
+    T FindMin(Node<T> *root) // tim thang con nho nhat trong cay: tim ben trai la ra
     {
-    	Node<T> *p = root;
-       	while(p->left != 0)
-       		p = p->left;
-       	return p;	
+       	if(root == 0)
+    		return INT_MIN;
+    	if(root->left != 0)
+    		return FindMin(root->left);
+    	return root->data;
+    };
+    T FindMax(Node<T> *root)
+    {
+    	if(root == 0)
+    		return INT_MAX;
+    	if(root->right != 0)
+    		return FindMax(root->right);
+    	return root->data;
     };
 
+    bool DeleteNode(T value, Node<T> *root, Node<T> *p) // p la node tam chuyen vao = 0
+    {
+    	if(root == 0)
+    		return false;
+    	if(root->data == value)
+    	{
+    		if(root -> left == 0 || root ->right ==0)
+    		{
+    			Node<T>* temp = root ->left;
+    			if(root->right != 0)
+    				temp == root->right;
+    			if(p != 0)
+    			{
+    				if(p->left == root)// p la parent: cha cua thang can xoa
+    				{
+    					Node<T>* n = p->left; 
+    					p->left = temp; // Truong hop thang ben delete thang ben trai
+    					delete n;
+    				}
+    				else
+    				{
+    					Node<T>* n = p->right;
+    					p->right = temp; //Truong hop thang ben delete thang ben phai
+    					delete n;
+    				}
+    			}
+    			else
+    			{
+    				Node<T>* n = root;
+    				root = temp;
+    				delete n;
+    			}
+    		}
+    		else
+    		{
+    			Node<T>* valSub = root ->right; // thang ke nhiem
+    			while (valSub ->left) // tim thang be nhat ben phai lam ke nhiem de thoai man left< cha < right;
+    			{ 
+    				valSub = valSub->left; 
+    			}
+    			T temp = root -> data;
+    			root->data = valSub->data; // hoan vi thang ke nhiem vao node can xoa, node can xoa vao vi tri ke nhiem
+    			valSub->data = temp;
+    			return DeleteNode(temp,root->right,root); // Xoa node can xoa tai vi tri ke nhiem
+    		}
+    		//delete root;
+    		return true;
+    	}
+    	return DeleteNode(value,root->left, root) || DeleteNode(value, root->right, root);
+    };
 public:
 	Tree()
 	{
@@ -211,7 +240,7 @@ public:
 		PostOrder(root);
 		cout<<endl;
 	};
-	bool Search(T value)
+	bool Search(T value) const
 	{
 		return Search(value,root);
 	};
@@ -219,18 +248,30 @@ public:
 	{
 		Add(value1,value2,root);
 	};
-	int SearchMax()
+	int SearchMax() const
 	{
 		return SearchMax(root);
 	};
-	int NodeCount()
+	int NodeCount() const
 	{
 		return NodeCount(root);
 	};
-	int HeightTree()
+	int HeightTree() const
 	{
 		return HeightTree(root);
 	}
+	bool DeleteNode(T value)
+	{
+		return DeleteNode(value,root, 0);
+	};
+	T FindMax()
+	{
+		return FindMax(root);
+	};
+	T FindMin()
+	{
+		return FindMin(root);
+	};
 };
 	
 #endif

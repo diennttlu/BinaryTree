@@ -4,15 +4,18 @@ using namespace std;
 int main()
 {
 	Tree<int> t1;
+	//Tree<int> t2;
 
-	t1.AddChild(11);
-	t1.AddChild(6);
-	t1.AddChild(15);
-	t1.Add(6,10);
-	t1.Add(6,7);
-	t1.Add(15,13);
+	t1.AddChild(50);
+	t1.AddChild(40);
+	t1.AddChild(70);
+	t1.AddChild(60);
+	t1.AddChild(80);
 	t1.PreOrder();
-	t1.InOrder();
+	cout<<t1.FindMax()<<endl;
+	//t2.PreOrder();
+	//t1.DeleteNode(80);
+	t1.PreOrder();
 	cout<<t1.NodeCount()<<endl;
 	cout<<t1.HeightTree()<<endl;
 	//t1.PostOrder();
