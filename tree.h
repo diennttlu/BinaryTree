@@ -1,8 +1,17 @@
 #ifndef tree_h
 #define tree_h
-#include "node.h"
+//#include "node.h"
 #include <limits.h>
 #include <math.h>
+
+template <class T>
+struct Node
+{
+	T data;
+	Node<T> *left;
+	Node<T> *right;
+};
+
 template <class T>
 class Tree
 {
@@ -205,6 +214,38 @@ private:
     	}
     	return DeleteNode(value,root->left, root) || DeleteNode(value, root->right, root);
     };
+    Node<T>* DeleteNodeOfTree(T value, Node<T>* &root)
+    {
+    	if(root == 0) // Base case: If the tree is empty
+    		return root;
+    	if(value < root->data)
+    		root->left = DeleteNodeOfTree(value, root->left);
+    	else if(value > root->data)
+    		root->right =  DeleteNodeOfTree(value, root->right);
+    	else
+    	{
+      		// node with only on child or no child
+    		if(root->left == 0)
+    		{
+    			Node<T> *temp = root;
+    			root = root->right;
+         		delete temp;
+         		return root;
+         	}
+    		else if(root->right == 0)
+    		{
+    			Node<T> *temp = root;
+    			root = root->left;
+    			delete temp;
+    			return root;
+    		}
+    		// node with two child: find min in right subtree;
+    		root->data = FindMin(root->right);
+    		root->right = DeleteNodeOfTree(root->data, root->right); 
+    	}
+    	return root;
+    };
+
 public:
 	Tree()
 	{
@@ -271,6 +312,10 @@ public:
 	T FindMin()
 	{
 		return FindMin(root);
+	};
+	void DeleteNodeOfTree(T value)
+	{
+		root = DeleteNodeOfTree(value,root);
 	};
 };
 	

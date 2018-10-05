@@ -12,12 +12,12 @@ int main()
 	t1.AddChild(60);
 	t1.AddChild(80);
 	t1.PreOrder();
-	cout<<t1.FindMax()<<endl;
+	//cout<<t1.FindMax()<<endl;
 	//t2.PreOrder();
-	//t1.DeleteNode(80);
+	t1.DeleteNodeOfTree(50);
 	t1.PreOrder();
-	cout<<t1.NodeCount()<<endl;
-	cout<<t1.HeightTree()<<endl;
+	//cout<<t1.NodeCount()<<endl;
+	//cout<<t1.HeightTree()<<endl;
 	//t1.PostOrder();
 	//cout<<t1.Search(4)<<endl;
 	return 0;
